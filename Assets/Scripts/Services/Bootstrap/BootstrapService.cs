@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using Playground.Services.Game;
-using UnityEngine;
 
 namespace Playground.Services.Bootstrap
 {
@@ -24,7 +24,16 @@ namespace Playground.Services.Bootstrap
 
         public void Bootstrap()
         {
-            Debug.Log("BootstrapService Bootstrap");
+            BootstrapAsync().Forget();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private async UniTask BootstrapAsync()
+        {
+            await UniTask.Delay(10 * 1000);
 
             _gameService.TransitionToGame();
         }
