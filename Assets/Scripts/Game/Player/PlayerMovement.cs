@@ -17,8 +17,13 @@ namespace Playground.Game.Player
         [SerializeField] private float _checkGroundRadius = 1f;
         [SerializeField] private LayerMask _checkGroundLayerMask;
 
+        [Header("Jump")]
+        [SerializeField] private float _jumpHeight = 1f;
+
         private Vector3 _fallVector;
         private IInputService _inputService;
+
+        private Vector3 _moveVector;
 
         #endregion
 
@@ -37,27 +42,37 @@ namespace Playground.Game.Player
         private void Update()
         {
             Vector2 axis = _inputService.Axis;
-            Vector3 moveVector = transform.right * axis.x + transform.forward * axis.y;
-            moveVector *= _speed;
+            _moveVector = transform.right * axis.x + transform.forward * axis.y;
+            _moveVector *= _speed;
 
-            _characterController.Move(moveVector * Time.deltaTime);
+            // _characterController.Move(moveVector * Time.deltaTime);
 
             bool isGrounded =
                 Physics.CheckSphere(_checkGroundTransform.position, _checkGroundRadius, _checkGroundLayerMask);
 
-            if (isGrounded)
+            if (isGrounded && _fallVector.y < 0)
             {
                 _fallVector.y = 0;
             }
 
-            if (_inputService.IsJump) { }
+            float gravity = Physics.gravity.y * _gravityMultiplier;
+
+            if (isGrounded && _inputService.IsJump)
+            {
+                _fallVector.y = Mathf.Sqrt(_jumpHeight * -2f * gravity);
+            }
 
             Debug.Log($"isGrounded = {isGrounded}");
 
-            float gravity = Physics.gravity.y * _gravityMultiplier;
             _fallVector.y += gravity * Time.deltaTime;
 
-            _characterController.Move(_fallVector * Time.deltaTime);
+            // _characterController.Move(_fallVector * Time.deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            _characterController.Move(_moveVector * Time.fixedDeltaTime);
+            _characterController.Move(_fallVector * Time.fixedDeltaTime);
         }
 
         #endregion
