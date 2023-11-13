@@ -51,8 +51,6 @@ namespace Playground.Game.Player
             _moveVector = transform.right * axis.x + transform.forward * axis.y;
             _moveVector *= _speed;
 
-            // _characterController.Move(moveVector * Time.deltaTime);
-
             bool isGrounded =
                 Physics.CheckSphere(_checkGroundTransform.position, _checkGroundRadius, _checkGroundLayerMask);
 
@@ -71,8 +69,6 @@ namespace Playground.Game.Player
             Debug.Log($"isGrounded = {isGrounded}");
 
             _fallVector.y += gravity * Time.deltaTime;
-
-            // _characterController.Move(_fallVector * Time.deltaTime);
         }
 
         private void FixedUpdate()

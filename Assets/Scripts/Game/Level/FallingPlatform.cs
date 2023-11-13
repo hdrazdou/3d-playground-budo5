@@ -12,10 +12,6 @@ namespace Playground.Game.Level
         [SerializeField] private float _fallDelay = 1f;
         [SerializeField] private float _animationDuration = 1f;
         [SerializeField] private LayerMask _groundMask;
-        private BoxCollider _collider;
-
-        private bool _isUsingGravity;
-        private Rigidbody _rb;
 
         #endregion
 
@@ -24,10 +20,8 @@ namespace Playground.Game.Level
         private void Awake()
         {
             _startPosition = transform.position;
-
-            _rb = GetComponent<Rigidbody>();
-            _collider = GetComponent<BoxCollider>();
-            _rb.useGravity = false;
+            _endPosition = transform.position;
+            _endPosition.y = -2.36f;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -45,10 +39,7 @@ namespace Playground.Game.Level
             Sequence sequence = DOTween.Sequence();
 
             sequence.AppendInterval(_fallDelay);
-            _collider.isTrigger = false;
-            _rb.useGravity = true;
-            sequence.AppendInterval(_fallDelay);
-            transform.DOMove(_startPosition, _animationDuration);
+            sequence.Append(transform.DOMove(_endPosition, _animationDuration));
         }
 
         #endregion

@@ -16,7 +16,7 @@ namespace Playground.Game.Player
 
         private void Awake()
         {
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void Update()
