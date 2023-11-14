@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Playground.Audio;
 using Playground.Services.Game;
 
 namespace Playground.Services.Bootstrap
@@ -8,14 +9,16 @@ namespace Playground.Services.Bootstrap
         #region Variables
 
         private readonly GameService _gameService;
+        private readonly AudioService _audioService;
 
         #endregion
 
         #region Setup/Teardown
 
-        public BootstrapService(GameService gameService)
+        public BootstrapService(GameService gameService, AudioService audioService)
         {
             _gameService = gameService;
+            _audioService = audioService;
         }
 
         #endregion
@@ -36,6 +39,7 @@ namespace Playground.Services.Bootstrap
             await UniTask.Delay(1 * 1000);
 
             _gameService.TransitionToGame();
+            _audioService.Init();
         }
 
         #endregion

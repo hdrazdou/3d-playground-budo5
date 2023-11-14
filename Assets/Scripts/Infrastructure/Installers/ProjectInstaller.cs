@@ -1,3 +1,4 @@
+using Playground.Audio;
 using Playground.Services.Game;
 using Playground.Services.Scene;
 using Zenject;
@@ -12,6 +13,7 @@ namespace Playground.Infrastructure.Installers
         {
             SceneLoaderInstaller.Install(Container);
             GameServiceInstaller.Install(Container);
+            AudioServiceInstaller.Install(Container);
         }
 
         #endregion
